@@ -1,0 +1,80 @@
+comment "//" ;
+comment "/*" "*/" ;
+comment "#" ;
+
+Prog. Program  ::= [Function] ;
+Func. Function ::= Type Ident "(" [Decl] ")" "{" [Stm] "}" ;
+Decl. Decl     ::= Type [Ident] ;
+
+
+terminator Function "" ;
+terminator Stm "" ;
+separator Decl "," ;
+separator nonempty Ident "," ;
+separator nonempty Out "<<" ;
+separator nonempty In ">>" ;
+
+SDecl.      Stm ::= Decl ";"  ;
+SExp.       Stm ::= Exp ";" ;
+SBlock.     Stm ::= "{" [Stm] "}" ;
+SWhile.     Stm ::= "while (" [Exp] ")" [Stm] ;
+SReturn.    Stm ::= "return" Exp  ";" ;
+SUsing.     Stm ::= "using" Stm ";" ;
+SConst.     Stm ::= Name ";" ;
+SOut.       Stm ::= [Out] ";" ;
+SIn.        Stm ::= [In] ";" ;
+SIf.        Stm ::= "if" "(" Exp ")" "{" [Stm] "}" ;
+
+Name.       Name ::= Exp "::" Ident ;
+
+Out.        Out ::= Name ;
+OutExp.     Out ::= Exp ;
+
+In.         In ::= Name ;
+InExp.      In ::= Exp ;
+
+EFunc.  Exp ::= Ident "." Ident "(" [Exp] ")" ";" ;
+
+EAss.   Exp  ::= Ident "=" Exp ;
+ELess.  Exp1 ::= Exp2 "<" Exp2 ;
+EAdd.   Exp2 ::= Exp2 "+" Exp3 ;
+ESub.   Exp2 ::= Exp2 "-" Exp3 ;
+EMul.   Exp3 ::= Exp3 "*" Exp4 ;
+ESR.    Exp  ::= Exp ">>" Exp ;
+ESL.    Exp  ::= Exp "<<" Exp ;
+EType.  Exp4 ::= Ident "(" [Exp] ")" ;
+EIdent. Exp4 ::= Ident ;
+EStr.   Exp4 ::= String ;
+EInt.   Exp4 ::= Integer ;
+EDoub.  Exp4 ::= Double ;
+ETStd.  Exp  ::= Type [Exp] "::" Type "::size_type" Ident ;
+
+
+EQues.  Exp  ::= Exp "?" Exp ":" Exp ;
+EEquiv. Exp  ::= Exp "==" Exp ;
+EArr.   Exp  ::= Ident "[" Exp "]" ;
+EAmp.   Exp  ::= Ident "&" ;
+EExcl.  Exp  ::= "!" Exp ;
+
+ELesEq. Exp  ::= Exp "<=" Exp ;
+EGreEq. Exp  ::= Exp ">=" Exp ;
+EPoint. Exp  ::= "*" Ident ;
+EAnd.   Exp  ::= Exp "&&" Exp ;
+EArrow. Exp  ::= Exp "->" Exp ;
+EPreInc. Exp  ::= "++" Exp ;
+EOr.     Exp  ::= Exp "||" Exp ;
+
+coercions Exp 4 ;
+
+separator Exp "," ;
+
+ETy. Exp ::= Type Exp ;
+Type. Type ::= "int" ;
+Type. Type ::= "double" ;
+Type. Type ::= "string" ;
+Type. Type ::= "vec_sz" ;
+Type. Type ::= "std::string"  ;
+
+Type. Type ::= "vector<double>" ;
+Type. Type ::= "typedef" ;
+Type. Type ::= "bool";
